@@ -1,0 +1,106 @@
+<div class="main" ng-class="{'main--has-feedback': $ctrl.showFeedback}">
+  <main-toolbar game="$ctrl.game" ng-dblclick="debug = !debug"></main-toolbar>
+  <main-debug game="$ctrl.game" ng-if="debug"></main-debug>
+
+  <div class="main__intro" ng-if="!$ctrl.started">
+    <div class="main__intro__content">
+      <h1 class="main__intro__content__heading" data-fittext="1.2">
+        Temptation City
+      </h1>
+      <div class="main__intro__content__delayed">
+        <p class="main__intro__content__meta lead">
+          — by <a href="http://jplusplus.org" target="_blank">Journalism++</a>
+        </p>
+        <p class="main__intro__content__description lead">
+          You're in charge now. Don't screw up! As new general manager of Temptation City
+          you have to play smart in order to make everyone happy.
+          If you can grap some money in the same time, that's would nice. But don't be caught!
+          <br />
+        </p>
+        <button class="btn btn-lg btn-primary main__intro__content__start mt-2 ml-2" ng-click="$ctrl.start()">
+          Start
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="main__steps" ui-view scroll-glue>
+    <div ng-repeat="year in $ctrl.visibleYears()">
+      <div class="main__steps__year" ng-if="year <= $ctrl.game.step.year">
+        <img class="main__steps__year__banner" ng-src="{{::$ctrl.game.findPicture(year)}}" />
+        {{::year}}
+      </div>
+      <div class="main__steps__item card card-block" ng-repeat="step in $ctrl.game.journey|filter:{year}">
+        <stack stack="step" game="$ctrl.game"></stack>
+        <fieldset class="main__steps__item__choices" ng-if="step.isLastSlice()">
+          <div class="list-unstyled row mb-0">
+            <div class="col-lg mt-1 main__steps__item__choices__btn" ng-class="{ 'col-lg-6': step.choices.length > 3 }" ng-repeat="choice in :: step.choices"  ng-if="!step.selection">
+              <button class="btn btn-block btn-sm btn-primary" ng-click="step.select(choice)" ng-class="{ active: step.selection == choice }">
+                {{::choice.text}}
+              </button>
+            </div>
+            <div ng-if="step.selection" class="col-lg">
+              <div class="mt-1 main__steps__item__choices__btn pull-right">
+                <span class="btn btn-block btn-sm btn-primary active">
+                  {{::step.selection.text}}
+                </span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+        <div class="mt-4" ng-if="step.selection && step.selection.hasFeedback()">
+          <stack stack="step.selection" game="$ctrl.game"></stack>
+        </div>
+        <fieldset ng-if="step.isDone()" ng-disabled="!step.isPrevious()">
+          <button class="btn btn-block btn-link btn-sm main__steps__item__undo my-2" ng-click="$ctrl.game.undo()">
+            Undo the last action
+          </button>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+
+  <div class="main__picture" ng-repeat="picture in $ctrl.game.pictures" ng-show="picture === $ctrl.game.picture">
+    <img ng-src="{{ picture }}"  class="main__picture__img" />
+  </div>
+
+  <div class="main__footer">
+    <div class="main__timeline" ng-if="!$ctrl.game.step.displayHint()">
+      <div class="container-fluid">
+        <div class="row">
+          <div ng-repeat="year in :: $ctrl.game.years" class="col main__timeline__year"  ng-class="{ 'main__timeline__year--active':  year <= $ctrl.game.step.year }">
+            <div class="main__timeline__year__label">
+              {{::year}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main__hint" ng-if="$ctrl.game.step.displayHint()">
+      <span class="main__hint__toggler btn btn-default btn-sm">
+        {{ $ctrl.game.lastHint.title }}
+      </span>
+      <div class="main__hint__body">
+        <div class="p-2 pb-3" ng-bind-html="$ctrl.game.lastHint.body | unsafe"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main__modal" ng-if="$ctrl.game.isOver() && !$ctrl.showFeedback">
+    <div class="main__modal__overlay"></div>
+    <div class="main__modal__card card card-block">
+      <div ng-bind-html="$ctrl.game.end.text | unsafe"></div>
+      <div class="text-right">
+        <button class="btn btn-link float-left" ng-click="$ctrl.game.undo()">
+          Undo the last action
+        </button>
+        <button class="btn btn-primary" ng-click="$ctrl.playAgain()">
+          Play again
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
