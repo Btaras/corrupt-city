@@ -1,0 +1,161 @@
+.main__toolbar {
+  background: transparent;
+  position: absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  background: $brand-inverse;
+  color: white;
+  width: $toolbar-width-md;
+  z-index:1000;
+  overflow: visible;
+  text-align: center;
+
+  @include media-breakpoint-down(sm) {
+    width: $toolbar-width-xs;
+  }
+
+  &__link {
+    margin:$spacer / 2 0;
+    position: relative;
+    cursor: pointer;
+
+    @include media-breakpoint-down(sm) {
+      font-size:1.5rem;
+    }
+
+    a {
+      padding:$spacer / 2;
+      display: block;
+      color:inherit;
+      width:100%;
+
+      &:hover, &:active, &:focus {
+        text-decoration: none;
+      }
+
+      i {
+        position: relative;
+        .badge {
+          display: inline-block;
+          position: absolute;
+          top:0;
+          left:100%;
+          font-size:0.4em;
+          transform: translate(-50%, -50%);
+          border-radius: 0.5em;
+          font-family: $font-family-sans-serif;
+        }
+      }
+    }
+
+    &.active {
+      position: relative;
+
+      .cssclippathcircle &:before {
+        content:"";
+        position: absolute;
+        right:0;
+        top:-15px;
+        bottom:-15px;
+        width: 15px;
+        background: white;
+      }
+
+      a {
+        color: $brand-inverse;
+        margin-left:$spacer / 2;
+        width: calc(100% - #{$spacer /2});
+        background:white;
+        border-radius: 0.5rem 0 0 0.5rem;
+        position: relative;
+
+        .cssclippathcircle &:before, .cssclippathcircle &:after {
+          content:"";
+          position: absolute;
+          right:0;
+          width:15px;
+          height:15px;
+          background:$brand-inverse;
+        }
+
+        &:before {
+          bottom:100%;
+          clip-path: circle(100% at 0% 0%);
+          -webkit-clip-path: circle(100% at 0% 0%);
+        }
+
+        &:after {
+          top:100%;
+          clip-path: circle(100% at 0% 100%);
+          -webkit-clip-path: circle(100% at 0% 100%);
+        }
+      }
+    }
+  }
+
+  &__var {
+    font-size: 1rem;
+    padding:$spacer / 2 $spacer;
+    margin:$spacer / 2 0;
+    font-family: $headings-font-family;
+    color: $friar-gray;
+
+    &__digit {
+      color: white;
+      font-weight: bolder;
+      font-size: 1.1rem;
+      line-height: 1rem;
+    }
+
+    &__risk {
+      width: 100%;
+      white-space: nowrap;
+      margin:$spacer / 2 auto;
+      background-color: rgba($friar-gray, 0.6);
+
+      &__case {
+        padding:0;
+        border-right:1px solid $brand-inverse;
+        position: relative;
+        display: block;
+        @include transition(600ms);
+
+        &:last-child {
+          border-right:0;
+        }
+
+        &:after {
+          content:"";
+          display: block;
+          width: 100%;
+          padding-bottom:100%;
+        }
+
+        &--active {
+          animation: blink 1s linear 3 normal;
+
+          $min: $brand-secondary;
+          $max: $bittersweet;
+          &:nth-child(1)  { background-color:mix($max, $min, 10); }
+          &:nth-child(2)  { background-color:mix($max, $min, 20); }
+          &:nth-child(3)  { background-color:mix($max, $min, 30); }
+          &:nth-child(4)  { background-color:mix($max, $min, 40); }
+          &:nth-child(4)  { background-color:mix($max, $min, 40); }
+          &:nth-child(5)  { background-color:mix($max, $min, 50); }
+          &:nth-child(6)  { background-color:mix($max, $min, 60); }
+          &:nth-child(7)  { background-color:mix($max, $min, 70); }
+          &:nth-child(8)  { background-color:mix($max, $min, 80); }
+          &:nth-child(9)  { background-color:mix($max, $min, 90); }
+          &:nth-child(10) { background-color:mix($max, $min, 100); }
+        }
+      }
+    }
+  }
+
+  &__separator {
+    border-color:rgba(white, 0.1);
+    margin:$spacer $spacer / 2;
+    padding:0;
+  }
+}
