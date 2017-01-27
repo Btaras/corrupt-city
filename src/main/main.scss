@@ -1,0 +1,463 @@
+.main {
+  position: fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  box-shadow: 0 0 50vh 0 black inset;
+  animation: fadeIn 2500ms;
+  animation-fill-mode: forwards;
+
+  &__intro {
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index: 2000;
+    background: darken($brand-inverse, 10);
+    @include transition(1500ms);
+
+    &.ng-leave.ng-leave-active,
+    &.ng-enter {
+      opacity: 0;
+    }
+
+    &.ng-leave, &.ng-enter-active {
+      opacity: 1;
+    }
+
+    &__content {
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+      width:100%;
+      max-width: 600px;
+      padding:$spacer * 2;
+      color: white;
+      @include transition(1500ms);
+
+      &:before {
+        content:"";
+        position: absolute;
+        left: -15px;
+        top:0;
+        bottom:0;
+        width: 5px;
+        background: white;
+        border-radius: 2.5px;
+      }
+
+      &__heading {
+        font-weight:bolder;
+        padding:$spacer;
+        position: relative;
+        white-space: normal;
+
+        &:before {
+          content:url('./images/temptation.svg');
+          position: absolute;
+          right:100%;
+          top:50%;
+          height:100px;
+          width:90px;
+          padding:5px 0;
+          transform: translateY(-50%);
+          background: darken($brand-inverse, 10);
+        }
+      }
+
+      &__meta {
+        font-weight: bolder;
+        font-size:1rem;
+      }
+
+      &__meta, &__description {
+        padding:0 $spacer;
+      }
+
+      &__start {
+        background:transparent;
+        color: white;
+        border:4px solid white;
+        cursor: pointer;
+      }
+
+      &__delayed {
+        overflow: hidden;
+        max-height: 0;
+        animation: opening 1200ms;
+        animation-fill-mode: forwards;
+        animation-delay: 2000ms;
+      }
+    }
+  }
+
+  &__steps {
+    background: white;
+    position: fixed;
+    bottom:4rem;
+    top:0;
+    left:$toolbar-width-md;
+    width:calc(100% - #{$toolbar-width-md});
+    max-width: $panel-width;
+    overflow: auto;
+    border:0.5rem solid $brand-inverse;
+    border-left:0;
+    border-bottom:0;
+    z-index:500;
+
+    @include media-breakpoint-down(sm) {
+      font-size:0.9rem;
+      border:0;
+      left:$toolbar-width-xs;
+      width:calc(100% - #{$toolbar-width-xs});
+    }
+
+    &__year {
+      position: relative;
+      padding: $spacer;
+      overflow: hidden;
+      margin:0.5rem;
+      padding:$spacer;
+      padding-top: $spacer * 3;
+      font-size: 2.5rem;
+      background:rgba(black, 0.2);
+      color:white;
+      font-family: $headings-font-family;
+      font-weight: bold;
+      animation: fadeIn 1500ms;
+      animation-fill-mode: forwards;
+
+      &__banner {
+        z-index: -1;
+        position: absolute;
+        top:50%;
+        left:50%;
+        min-width: 100%;
+        min-height: 100%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &__item {
+      margin:0.5rem;
+
+      &:last-child {
+        margin-bottom:0;
+      }
+
+      @include media-breakpoint-down(sm) {
+        font-size:0.9rem;
+        padding:0.4rem;
+      }
+
+      &:nth-last-child(2) &__slice--feedback {
+        opacity: 1;
+      }
+
+      &__choices {
+        margin-top: $spacer;
+
+        &__btn .btn {
+          font-size:1em;
+          font-family: inherit;
+          line-height: inherit;
+        }
+
+        html.supports &__btn:first-child:last-child .btn {
+          border-radius:0.5rem;
+        }
+
+        &__btn:first-child .btn {
+          border-radius:0.5rem 0.5rem 0 0;
+        }
+
+        &__btn:last-child .btn {
+          border-radius:0 0 0.5rem 0.5rem;
+        }
+
+        .no-flexbox & .col-lg {
+          float:none;
+          clear: left;
+          width: 100%;
+          max-width: 100%;
+        }
+
+        @include media-breakpoint-up(lg) {
+
+          html.flexbox &__btn:first-child .btn {
+            border-radius:0.5rem 0 0 0.5rem;
+          }
+
+          html.flexbox &__btn:last-child .btn {
+            border-radius:0 0.5rem 0.5rem 0;
+          }
+
+          html.flexbox &__btn:not(:first-child) {
+            padding-left:2px;
+          }
+
+          html.flexbox &__btn:not(:last-child) {
+            padding-right:2px;
+          }
+        }
+      }
+
+      .btn {
+        cursor: pointer;
+        white-space: normal;
+        height:100%;
+
+        &:not(.active):disabled {
+          opacity: .3;
+          filter:grayscale(100);
+        }
+      }
+    }
+  }
+
+  .main__picture {
+    position: absolute;
+    right:0;
+    bottom:0;
+    top:0;
+    width: calc(100% - #{$panel-width} - #{$toolbar-width-md});
+    overflow: hidden;
+    z-index:-1;
+    @include transition(1600ms);
+
+    &.ng-hide {
+      opacity: 0;
+    }
+
+    &:after {
+      content:"";
+      position: absolute;
+      width:1rem;
+      height:100%;
+      left:0;
+      top:0;
+      @include gradient-x(rgba(black, 0.2), rgba(black, 0));
+    }
+
+    &__img {
+      opacity: 0.9;
+      min-width:100%;
+      min-height:100%;
+      position: absolute;
+      top:50%;
+      left:50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__footer {
+    position: absolute;
+    bottom:0;
+    top:0;
+    left: $toolbar-width-md;
+    width:calc(100% - #{$toolbar-width-md});
+    max-width: $panel-width;
+    overflow: hidden;
+    background: $brand-inverse;
+    border:0.5rem $brand-inverse solid;
+    border-left:0;
+    border-top:0;
+    pointer-events: none;
+
+    @include media-breakpoint-down(sm) {
+      left:$toolbar-width-xs;
+      border:0;
+      width:calc(100% - #{$toolbar-width-xs});
+    }
+  }
+
+  &__timeline, &__hint {
+    pointer-events: auto;
+    position: absolute;
+    bottom:0;
+    left: 0;
+    width:100%;
+    background: white;
+    z-index:600;
+
+    &.ng-enter, &.ng-leave {
+      @include transition(0.6s);
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+      transform: translateX(0);
+    }
+  }
+
+  &__timeline {
+    padding:$spacer * 2 $spacer;
+    height:4rem;
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+      transform: translateX(-100%);
+    }
+
+    &__year {
+      height:.5rem;
+      background: $brand-secondary;
+      position: relative;
+      filter:grayscale(100%);
+      white-space: nowrap;
+      padding:0;
+      @include transition(600ms);
+
+      .no-cssfilters & {
+        opacity:0.3;
+      }
+
+      &--active {
+        filter:grayscale(0%);
+        opacity:1;
+      }
+
+      &:nth-child(even) {
+        background: lighten($brand-secondary, 10);
+      }
+
+      &__label {
+        font-size: .7rem;
+        position: absolute;
+        bottom:100%;
+        left:50%;
+        transform: translateX(-50%);
+        font-family: $headings-font-family;
+      }
+
+      &:nth-child(even) &__label {
+        display: none;
+      }
+
+      @include media-breakpoint-down(sm) {
+        &__label {
+          display: none;
+        }
+        &:nth-child(4n+1) &__label {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__hint {
+    text-align: center;
+    background:white;
+    min-height: 4rem;
+    @include transition(400ms);
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+      transform: translateX(100%);
+    }
+
+    &:before {
+      content:"";
+      position: absolute;
+      bottom:100%;
+      left:50%;
+      transform: translate(-50%, 25%);
+      border:transparent $spacer * 2 solid;
+      border-bottom-color: white;
+      z-index:1;
+      pointer-events: none;
+    }
+
+    &:after {
+      content:"";
+      position: absolute;
+      left:0;
+      right: 0;
+      bottom:100%;
+      height: 8rem;
+      pointer-events: none;
+      opacity: 0;
+      @include transition(400ms);
+      @include gradient-y(rgba(black, 0), rgba(black, 0.4));
+    }
+
+    &:hover:after {
+      opacity: 1;
+    }
+
+    &:hover &__body {
+      max-height:100vh;
+    }
+
+    &__toggler {
+      display: inline-block;
+      margin:$spacer / 2 0;
+      background: $french-gray;
+      border-radius: 0.5rem;
+      font-size: 1.1rem;
+      padding:0.5rem 1rem;
+      font-weight: lighter;
+      font-family: $headings-font-family;
+      position: relative;
+      z-index:1;
+
+      &:before {
+        content:"";
+        position: absolute;
+        bottom:100%;
+        left:50%;
+        transform: translate(-50%, 0);
+        border:transparent $spacer solid;
+        border-bottom-color: $french-gray;
+        z-index:100000;
+        pointer-events: none;
+      }
+    }
+
+    &__body {
+      @include transition(max-height 400ms);
+      max-width: 450px;
+      max-height:0vh;
+      margin: auto;
+      text-align: left;
+      overflow: hidden;
+    }
+  }
+
+  &__modal {
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    overflow: auto;
+    z-index:2000;
+    @include transition(600ms);
+
+    &.ng-leave.ng-leave-active,
+    &.ng-enter {
+      opacity: 0;
+    }
+
+    &.ng-leave, &.ng-enter-active {
+      opacity: 1;
+    }
+
+    &__overlay {
+      background: rgba(black, .5);
+      position: absolute;
+      top:0;
+      bottom:0;
+      left:0;
+      right:0;
+    }
+
+    &__card {
+      max-width:660px;
+      margin:$spacer * 4 auto;
+    }
+  }
+
+}
