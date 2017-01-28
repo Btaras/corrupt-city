@@ -62,7 +62,7 @@ module.exports = {
   },
   plugins: [
     new DashboardPlugin({ port: 3030 }),
-    new WebpackNotifierPlugin({ title: 'Temptation city' }),
+    new WebpackNotifierPlugin({ title: 'Corrupt city' }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     FailPlugin,
